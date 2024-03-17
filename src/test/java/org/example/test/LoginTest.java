@@ -121,8 +121,6 @@ public class LoginTest {
         driver.get("https://www.saucedemo.com/");
 
         //Localizacion del elemento
-        driver.findElement(By.id("user-name")).sendKeys("");
-        driver.findElement(By.name("password")).sendKeys("");
         driver.findElement(By.id("login-button")).click();
 
         WebElement mensajeErrorLogueo = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]"));
@@ -146,14 +144,13 @@ public class LoginTest {
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
 
-        // Espera explícita para el botón del menú
-        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("react-burger-menu-btn")));
-
-        // Cierre de sesión
         driver.findElement(By.id("react-burger-menu-btn")).click();
+
+        // Espera explícita para el botón logout
         WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
         wait1.until(ExpectedConditions.visibilityOfElementLocated(By.id("logout_sidebar_link")));
+
+        // Cierre de sesión
         driver.findElement(By.id("logout_sidebar_link")).click();
 
         System.out.println("Se ha cerrado la sesión de manera exitosa!");

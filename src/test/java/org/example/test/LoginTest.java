@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class Login {
+public class LoginTest {
     @Test
     public void loginExitoso() {
 

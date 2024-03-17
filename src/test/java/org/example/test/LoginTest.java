@@ -110,6 +110,26 @@ public class LoginTest {
     }
 
     @Test
+    public void userYPassVacia(){
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("");
+        driver.findElement(By.name("password")).sendKeys("");
+        driver.findElement(By.id("login-button")).click();
+
+        WebElement mensajeErrorLogueo = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]"));
+        Assert.assertTrue(mensajeErrorLogueo.isDisplayed(),"Es necesario ingresar usuario y contraseña!");
+    }
+
+    @Test
     public void logout(){
 
         System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
@@ -137,8 +157,6 @@ public class LoginTest {
         driver.findElement(By.id("logout_sidebar_link")).click();
 
         System.out.println("Se ha cerrado la sesión de manera exitosa!");
-
-
     }
 
 }

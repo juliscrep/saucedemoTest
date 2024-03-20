@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class CarritoComprasTest {
 
@@ -33,13 +34,15 @@ public class CarritoComprasTest {
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
 
+        //Espera implicita
+        WebDriver.Timeouts timeouts = driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         // Take screenshot and store as a file format
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
         try {
             // Ruta donde se guardará el screenshot
-            Path destinationPath = Paths.get(System.getProperty("user.dir"), "src", "test", "resources","screenshots","screenshotLogin.png");
+            Path destinationPath = Paths.get(System.getProperty("user.dir"), "src", "test", "resources","screenshots","screenshotProductos.png");
 
             // Se Copia el screenshot al destino especificado
             Files.copy(src.toPath(), destinationPath);

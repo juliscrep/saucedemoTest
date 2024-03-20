@@ -1,15 +1,21 @@
 package org.example.test;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
 
 public class LoginTest {
     @Test
@@ -39,7 +45,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginError(){
+    public void passwordIncorrecta(){
 
         System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
 
@@ -155,5 +161,6 @@ public class LoginTest {
 
         System.out.println("Se ha cerrado la sesión de manera exitosa!");
     }
+
 
 }

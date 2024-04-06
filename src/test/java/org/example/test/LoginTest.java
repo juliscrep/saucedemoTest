@@ -36,11 +36,19 @@ public class LoginTest {
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
 
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+            System.out.println("Se ha iniciado sesión de manera exitosa! ");
+        }
+        else {
+            System.out.println("No se pudo iniciar sesión! ");
+        }
+
         //indicamos que cierre las ventanas
-        //driver.quit();
-
-        System.out.println("Se ha iniciado sesión de manera exitosa! ");
-
+        driver.quit();
     }
 
     @Test

@@ -186,12 +186,10 @@ public class CarritoComprasTest {
             else {
                 System.out.println("No se pueden visualizar los productos del carrito!");
             }
-
         }
         else{
             System.out.println("No se pudo iniciar sesion!");
         }
-
     }
 
     @Test
@@ -399,6 +397,105 @@ public class CarritoComprasTest {
             else {
                 System.out.println("No se pueden visualizar los productos del carrito!");
             }
+        }
+        else{
+            System.out.println("No se pudo iniciar sesion!");
+        }
+    }
+
+    @Test
+    public void compraCarritoVacio(){
+
+        //configuracion del driver
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+
+            driver.findElement(By.className("shopping_cart_link")).click();
+            driver.findElement(By.id("checkout")).click();
+
+            //Se cargan datos del cliente
+            driver.findElement(By.id("first-name")).sendKeys("Luis");
+            driver.findElement(By.id("last-name")).sendKeys("Gomez");
+            driver.findElement(By.id("postal-code")).sendKeys("5001");
+            driver.findElement(By.id("continue")).click();
+
+            if(driver.findElement(By.className("summary_info")).isDisplayed()){
+                driver.findElement(By.id("finish")).click();
+
+                WebElement mensajeCompra= driver.findElement(By.xpath("//h2[@class='complete-header']"));
+                Assert.assertEquals(mensajeCompra.getText(),"Thank you for your order!");
+                System.out.println("Compra realizada con carrito vacio!");
+
+            }
+            else {
+                System.out.println("No se pueden visualizar los productos del carrito!");
+            }
+        }
+        else{
+            System.out.println("No se pudo iniciar sesion!");
+        }
+    }
+
+    @Test
+    public void removerProductosCarrito(){
+
+        //configuracion del driver
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+
+            List<WebElement> productos = driver.findElements(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory ']"));
+
+            for (WebElement producto : productos) {  //se agregan productos al carrito
+                producto.click();
+                new WebDriverWait(driver, Duration.ofSeconds(15));
+            }
+
+            driver.findElement(By.className("shopping_cart_link")).click();
+
+            //se remueven los productos del carrito
+
+            List<WebElement> removerProductos = driver.findElements(By.xpath("//button[@class='btn btn_secondary btn_small cart_button']"));
+
+            for (WebElement producto : removerProductos ) {
+                producto.click();
+                new WebDriverWait(driver, Duration.ofSeconds(15));
+            }
+
+            System.out.println("Se eliminaron todos los productos del carrito!");
         }
         else{
             System.out.println("No se pudo iniciar sesion!");

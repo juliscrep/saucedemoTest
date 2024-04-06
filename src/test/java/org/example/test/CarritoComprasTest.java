@@ -37,7 +37,7 @@ public class CarritoComprasTest {
         //Espera implicita
         WebDriver.Timeouts timeouts = driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
-        // Take screenshot and store as a file format
+        // Se realiza la captura de pantalla
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
         try {

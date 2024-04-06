@@ -36,7 +36,6 @@ public class LoginTest {
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
 
-
         //indicamos que cierre las ventanas
         //driver.quit();
 
@@ -131,6 +130,29 @@ public class LoginTest {
 
         WebElement mensajeErrorLogueo = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]"));
         Assert.assertTrue(mensajeErrorLogueo.isDisplayed(),"Es necesario ingresar usuario y contraseña!");
+    }
+
+    @Test
+    public void userBloqueado(){
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("locked_out_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        WebElement mensajeError= driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]"));
+        Assert.assertTrue(mensajeError.isDisplayed(),"El usuario se encuentra bloqueado!");
+
+        Assert.assertEquals(mensajeError.getText(),"Epic sadface: Sorry, this user has been locked out.");
+
+
     }
 
     @Test

@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CarritoComprasTest {
@@ -33,7 +34,8 @@ public class CarritoComprasTest {
         driver.findElement(By.id("login-button")).click();
 
         //Espera implicita
-        WebDriver.Timeouts timeouts = driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS); -- deprecado en ultima version de selenium
+        new WebDriverWait(driver, Duration.ofSeconds(15));
 
         // Se realiza la captura de pantalla
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -48,10 +50,12 @@ public class CarritoComprasTest {
             System.out.println("Screenshot guardado en: " + destinationPath);
 
         } catch (IOException e) {
-            e.printStackTrace();
+           // e.printStackTrace(); -- imprime la traza completa de la excepción
+            System.out.println(e.getMessage());
+
         }finally {
             // Cerrar el navegador
-            driver.quit();
+            //driver.quit();
         }
 
     }
@@ -83,8 +87,47 @@ public class CarritoComprasTest {
             Assert.assertTrue(nombreProducto.isDisplayed(),"Se visualiza información sobre el producto");
             Assert.assertEquals(nombreProducto.getText(),"Sauce Labs Backpack");
 
-            //Volver al home
+            //Volver al home de productos
             driver.findElement(By.name("back-to-products")).click();
+
+        }
+        else{
+            System.out.println("No se pudo iniciar sesion!");
+        }
+    }
+
+    @Test
+    public void agregarProductosAlCarrito(){
+
+        //configuracion del driver
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+
+            List<WebElement> productos = driver.findElements(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory ']"));
+
+            for (WebElement producto : productos) {
+                producto.click();
+                new WebDriverWait(driver, Duration.ofSeconds(15));
+            }
+
+            driver.findElement(By.className("shopping_cart_link")).click();
 
         }
         else{

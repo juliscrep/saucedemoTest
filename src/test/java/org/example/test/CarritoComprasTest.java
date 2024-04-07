@@ -502,6 +502,125 @@ public class CarritoComprasTest {
         }
     }
 
+    @Test
+    public void ordernarProductosPorNombreZA(){
+
+        //configuracion del driver
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+
+            driver.findElement(By.className("product_sort_container")).click();
+
+            driver.findElement(By.xpath("//option[@value='za']")).click();
+
+            if(driver.findElement(By.linkText("Test.allTheThings() T-Shirt (Red)")).isDisplayed()){
+                System.out.println("Se ordenaron todos los productos de acuerdo al nombre desde la Z a la A!");
+            }
+            else {
+                System.out.println("No se pudo ordenar los productos");
+            }
+
+        }
+        else{
+            System.out.println("No se pudo iniciar sesion!");
+        }
+    }
+
+    @Test
+    public void ordenarProductosPorPrecioBajo(){
+
+        //configuracion del driver
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+
+            driver.findElement(By.className("product_sort_container")).click();
+
+            driver.findElement(By.xpath("//option[@value='lohi']")).click();
+
+            List<WebElement> ordenarProd = driver.findElements(By.className("inventory_item_price"));
+
+            Assert.assertEquals(ordenarProd.get(0).getText(),"$7.99");
+
+            System.out.println("Se ordenaron todos los productos de acuerdo al precio desde el mas bajo al mas alto");
+
+        }
+        else{
+            System.out.println("No se pudo iniciar sesion!");
+        }
+
+    }
+
+    @Test
+    public void ordenarProductosPorPrecioAlto(){
+
+        //configuracion del driver
+        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
+
+        // creacion del driver
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.saucedemo.com/");
+
+        //Localizacion del elemento
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        // Espera explícita
+        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.className("app_logo")));
+
+        if(driver.findElement(By.className("app_logo")).isDisplayed()){
+
+            driver.findElement(By.className("product_sort_container")).click();
+
+            driver.findElement(By.xpath("//option[@value='hilo']")).click();
+
+            List<WebElement> ordenarProd = driver.findElements(By.className("inventory_item_price"));
+
+            Assert.assertEquals(ordenarProd.get(0).getText(),"$49.99");
+
+            System.out.println("Se ordenaron todos los productos de acuerdo al precio desde el mas alto al mas bajo");
+
+        }
+        else{
+            System.out.println("No se pudo iniciar sesion!");
+        }
+    }
+
 
 }
 

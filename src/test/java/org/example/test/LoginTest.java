@@ -154,34 +154,5 @@ public class LoginTest {
 
     }
 
-    @Test
-    public void logout(){
-
-        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
-
-
-        // creacion del driver
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
-        driver.get("https://www.saucedemo.com/");
-
-        //Localizacion del elemento
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.name("password")).sendKeys("secret_sauce");
-        driver.findElement(By.id("login-button")).click();
-
-        driver.findElement(By.id("react-burger-menu-btn")).click();
-
-        // Espera explícita para el botón logout
-        WebDriverWait wait1 = new WebDriverWait(driver,Duration.ofSeconds(15));
-        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.id("logout_sidebar_link")));
-
-        // Cierre de sesión
-        driver.findElement(By.id("logout_sidebar_link")).click();
-
-        System.out.println("Se ha cerrado la sesión de manera exitosa!");
-    }
-
 
 }

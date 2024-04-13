@@ -60,7 +60,7 @@ public class LoginTest {
         driver.findElement(By.id("login-button")).click();
 
         WebElement mensajeErrorLogueo = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[3]/h3[1]"));
-        Assert.assertTrue(mensajeErrorLogueo.isDisplayed(),"La contraseña es incorrecta!");
+        Assert.assertTrue(mensajeErrorLogueo.isDisplayed(),"La contraseña es incorrecta!");  // hard assertion - Método estatico
 
         Assert.assertEquals(mensajeErrorLogueo.getText(),"Epic sadface: Username and password do not match any user in this service");
 

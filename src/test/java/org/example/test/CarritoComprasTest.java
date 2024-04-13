@@ -19,7 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class CarritoComprasTest {
 
     @Test
-    public void screenshotProductos(){
+    public void screenshotProductos() //throws IOException -- se utiliza para generar una excepción explícitamente y manejarla
+    {
 
         System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\webdriver\\chromedriver.exe");
 
@@ -52,6 +53,7 @@ public class CarritoComprasTest {
         } catch (IOException e) {
            // e.printStackTrace(); -- imprime la traza completa de la excepción
             System.out.println(e.getMessage());
+           // throw(e);
 
         }finally {
             // Cerrar el navegador
